@@ -1,0 +1,327 @@
+/* ============================================================
+   NARUTO ARENA v14
+   Layout (1114px total):
+   Header: [nav 195px] [char 206px ml:-5 → consumed 201] [right 718px]
+   Body:   [spacer 10px] [left 185px] [gap 8px] [center 185px] [gap 8px] [right 718px]
+   nav(195) = spacer(10)+left(185)  |  header-right == sidebar-right == 718px
+   char center=293px ≈ center-col midpoint=295px  ✓
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: #f0a500;  /* matches site-bg.png so no gray gaps */
+  background-image: url(../images/site-bg.png);
+  background-repeat: repeat;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 13px;
+  color: #222;
+}
+a { color: #c05000; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+#page-wrap   { width: 1114px; margin: 0 auto; }
+#main-layout { display: flex; width: 1114px; align-items: flex-start; }
+#footer      { width: 1114px; margin: 0 auto; padding: 6px 12px; text-align: center;
+               font-size: 12px; color: #555; border-top: 1px solid #bbb; background: transparent; }
+
+/* HEADER */
+#header {
+  width: 1114px; height: 220px;
+  display: flex; background: transparent; overflow: visible;
+}
+
+/* Fix 1: nav col = 195px */
+#header-nav {
+  width: 195px; min-width: 195px; flex-shrink: 0; height: 220px;
+  display: flex; flex-direction: column; justify-content: flex-start;
+  padding: 12px 0px 5px 10px; gap: 6px; /* left=10px aligns button left edge with sidebar-left */
+  background: transparent; position: relative; z-index: 2;
+}
+#header-nav a.nav-btn { display: block; width: 100%; line-height: 0; text-decoration: none; }
+#header-nav a.nav-btn img { width: 100%; height: 28px; display: block; object-fit: fill; }
+#header-nav a.nav-btn:hover img { opacity: 0.78; }
+#header-nav a.nav-btn.active img { filter: brightness(0.85); }
+/* Fix 5: Discord button as PNG image */
+#header-nav a.discord-btn {
+  display: block; width: 100%; line-height: 0; text-decoration: none; margin-top: 1px;
+}
+#header-nav a.discord-btn img { width: 100%; height: 28px; display: block; object-fit: fill; }
+#header-nav a.discord-btn:hover img { opacity: 0.78; }
+
+/* char: 221px wide, ml:-20px → consumed=201px (unchanged). Extends 20px under nav. */
+#header-char {
+  width: 221px; min-width: 221px; flex-shrink: 0; height: 220px;
+  background: transparent; overflow: visible; position: relative; z-index: 1;
+  margin-left: -20px;
+}
+#header-char img {
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  height: 249px; width: auto; object-fit: contain;
+}
+
+#header-right {
+  flex: 1; height: 220px; display: flex; flex-direction: column;
+  min-width: 0; position: relative; z-index: 3;
+}
+
+/* FIX 2: logo is a PNG image */
+#header-logo {
+  width: 100%; height: 66px; min-height: 66px; flex-shrink: 0;
+  background: #8d9e66; overflow: hidden;
+  border: 1px solid #000; border-bottom: none;
+}
+#header-logo img { width: 100%; height: 100%; display: block; object-fit: cover; }
+
+#header-banner {
+  flex: 1; background: #8d9e66; overflow: hidden; border: 1px solid #000;
+}
+#header-banner img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+
+/* BODY COLUMNS — spacer(8)+left(187)=195 aligns under nav(195) */
+#sidebar-spacer { width: 10px; min-width: 10px; flex-shrink: 0; background: transparent; align-self: stretch; }
+
+#sidebar-left {
+  width: 185px; min-width: 185px; flex-shrink: 0;
+  background: #8d9e66; border: 1px solid #000;
+  padding: 7px 9px 16px;
+}
+
+#col-gap-left  { width: 8px; min-width: 8px; flex-shrink: 0; background: transparent; }
+#col-gap-right { width: 8px; min-width: 8px; flex-shrink: 0; background: transparent; }
+
+/* Fix 2: content-main transparent c-boxes show green through */
+#content-main {
+  width: 185px; min-width: 185px; max-width: 185px; flex-shrink: 0;
+  background: #8d9e66; border: 1px solid #000; padding: 0;
+  overflow: hidden;  /* NEVER let content push column wider */
+}
+
+#sidebar-right {
+  width: 718px; min-width: 718px; flex-shrink: 0;
+  background: #fff; padding: 8px 14px 16px; min-height: 400px;
+  border: 1px solid #000;
+}
+
+/* SIDEBAR-LEFT TEXT */
+.s-section { margin-bottom: 10px; }
+.s-title { font-size: 13px; font-weight: bold; color: #fff; display: block; margin-bottom: 3px; font-family: Tahoma, sans-serif; text-decoration: none; }
+.s-title a, a.s-title { color: #fff; text-decoration: none; }
+.s-title:hover, .s-title a:hover { text-decoration: underline; }
+.online-pill { display: inline-flex; align-items: center; gap: 5px; background: #cc0000; color: #fff; font-size: 12px; font-weight: bold; padding: 2px 8px 2px 5px; border-radius: 11px; }
+.online-dot { width: 10px; height: 10px; background: #ff4444; border-radius: 50%; display: inline-block; border: 1px solid rgba(255,255,255,0.7); }
+.s-text { font-size: 12px; color: #f0f0f0; line-height: 1.5; margin-bottom: 2px; }
+.s-text em { font-style: italic; }
+.s-text strong { color: #fff; }
+.s-links { list-style: none; padding: 0; }
+.s-links li { font-size: 12px; padding-left: 9px; position: relative; margin-bottom: 2px; }
+.s-links li::before { content: ">>"; position: absolute; left: 0; color: #ffe080; font-size: 9px; }
+.s-links li a { color: #ffe080; }
+.patreon-btn { display: inline-flex; align-items: center; gap: 5px; background: #f96854; color: #fff !important; font-size: 12px; font-weight: bold; padding: 3px 10px; text-decoration: none !important; border-radius: 2px; margin-top: 2px; }
+.patreon-btn:hover { background: #e55a45; }
+.helper-banner { width: 100%; height: 39px; overflow: hidden; margin-bottom: 3px; }
+.helper-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.acct-welcome { font-size: 12px; color: #f0f0f0; margin-bottom: 3px; }
+.acct-welcome a { color: #ffe080; font-weight: bold; }
+.acct-links { list-style: none; padding: 0; }
+.acct-links li { font-size: 12px; margin-bottom: 2px; }
+.acct-links li a { color: #ffe080; }
+.acct-links li a.new-tag { color: #aaffaa; font-weight: bold; }
+
+/* CENTER COL c-boxes — Fix 2: transparent so #8d9e66 shows through */
+.c-box { background: transparent; margin: 0 0 2px 0; overflow: hidden; }
+.c-box-inner { padding: 3px 4px; overflow: hidden; }
+.c-box-title {
+  font-size: 13px; font-weight: bold; font-style: italic;
+  color: #fff; padding: 4px 7px;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  background: transparent;
+  font-family: Tahoma, sans-serif;
+}
+
+/* Fix 6: screenshot exactly 185x90, horizontally centered in 220px col */
+.screenshot-wrap {
+  display: flex; justify-content: center; padding: 4px 0 3px;
+}
+.screenshot-img {
+  width: 180px; height: 101px; display: block;
+  object-fit: cover; border: 1px solid #000; flex-shrink: 0;
+}
+
+.note-box {
+  background: rgba(255,255,240,0.85); border: 1px solid rgba(200,190,100,0.7);
+  padding: 5px 6px; font-size: 12px; line-height: 1.5;
+}
+.note-box .note-label { font-weight: bold; color: #cc0000; }
+.note-box a { color: #ffe080; }
+
+/* ── CENTER COLUMN rows ───────────────────────────────────────────────────
+   All stacked-bar rows share .cl-row / .cl-num / .cl-body / .cl-name
+   Bar is EXACTLY 75x14px, 1px black border, score centered.
+   Everything clips inside the 185px column via overflow:hidden on #content-main.
+   Font sizes match sidebar-left: 12px body, 13px titles.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* Stacked-bar row — used by Clanladder, RTH, Warlords, Rikudou */
+.cl-row  { display: flex; align-items: center; gap: 0; margin-bottom: 4px; }
+.cl-num  { width: 22px; min-width: 22px; font-size: 12px; font-weight: bold; font-style: italic;
+           color: #ffe080; text-align: right; flex-shrink: 0; align-self: center; line-height: 1; }
+.cl-body { width: 155px; max-width: 155px; overflow: hidden; padding-left: 4px; flex-shrink: 0; }
+.cl-name { display: block; font-size: 12px; color: #fff; white-space: nowrap;
+           overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;
+           width: 151px; max-width: 151px; }
+/* Bar: exactly 75x14, 1px black border, score centered in bar */
+.cl-bar-wrap { width: 75px; height: 14px; background: rgba(0,0,0,0.35);
+               border: 1px solid #000; overflow: hidden; position: relative; }
+.cl-bar      { position: absolute; top: 0; left: 0; height: 100%;
+               background: linear-gradient(to right, #2e8a57, #3cb371); min-width: 4px; }
+.cl-bar-label { position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 9px; color: #fff; font-weight: bold; white-space: nowrap;
+                text-shadow: 0 0 3px #000, 1px 1px 0 #000; pointer-events: none; z-index: 1; }
+
+/* Rikudou Sennin — single row with avatar + bar */
+.lb-row    { display: flex; align-items: center; gap: 3px; margin-bottom: 3px; overflow: hidden; }
+.lb-avatar { width: 21px; height: 21px; background: #bbb; border-radius: 50%;
+             overflow: hidden; flex-shrink: 0; border: 1px solid #999; }
+.lb-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lb-avatar.sq  { border-radius: 2px; background: #cc6600; }
+.lb-name   { font-size: 12px; color: #fff; white-space: nowrap; overflow: hidden;
+             text-overflow: ellipsis; flex: 1; min-width: 0; }
+.lb-bar-wrap { width: 75px; min-width: 75px; height: 14px; background: rgba(0,0,0,0.35);
+               border: 1px solid #000; overflow: hidden; flex-shrink: 0; position: relative; }
+.lb-bar  { position: absolute; top: 0; left: 0; height: 100%;
+           background: linear-gradient(to right, #2e8a57, #3cb371); min-width: 4px; }
+.lb-bar-label { position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 9px; color: #fff; font-weight: bold; white-space: nowrap;
+                text-shadow: 0 0 3px #000, 1px 1px 0 #000; pointer-events: none; z-index: 1; }
+
+/* Plain text lists — Winstreak / Most Wins / Highest Streaks */
+.ws-row  { display: flex; align-items: baseline; gap: 2px; margin-bottom: 2px;
+           line-height: 1.4; overflow: hidden; max-width: 100%; }
+.ws-num  { width: 20px; min-width: 20px; font-size: 12px; color: #ffe080;
+           text-align: right; flex-shrink: 0; }
+.ws-name { flex: 1; font-size: 12px; color: #fff; white-space: nowrap;
+           overflow: hidden; text-overflow: ellipsis; min-width: 0; padding-left: 3px; }
+.ws-val  { font-size: 12px; font-weight: bold; color: #ffcc44; flex-shrink: 0; padding-left: 3px; }
+
+/* RIGHT PANEL */
+.news-site-title { font-size: 15px; font-weight: bold; color: #222; font-family: Tahoma, sans-serif; }
+.news-site-sub { font-size: 12px; color: #cc5500; margin-bottom: 6px; }
+.news-banner-img { width: 100%; display: block; margin-bottom: 5px; object-fit: cover; max-height: 151px; }
+.news-prev-next { font-size: 12px; color: #777; margin-bottom: 5px; }
+.news-prev-next a { color: #555; border: 1px solid #bbb; padding: 1px 6px; font-size: 12px; }
+.news-prev-next a:hover { background: #eee; }
+.news-post-title { font-size: 14px; font-weight: bold; color: #cc5500; margin-bottom: 1px; font-family: Tahoma, sans-serif; }
+.news-post-meta { font-size: 12px; color: #888; margin-bottom: 5px; padding-bottom: 3px; border-bottom: 1px dotted #ddd; }
+.news-post-meta a { color: #c05000; }
+.news-post-meta::before { content: ">> "; color: #c05000; }
+.news-body { font-size: 13px; line-height: 1.65; color: #333; }
+.news-body p { margin-bottom: 6px; }
+.news-body strong { color: #111; }
+.news-body ul { list-style: none; padding-left: 5px; margin-bottom: 6px; }
+.news-body ul li { padding-left: 16px; position: relative; margin-bottom: 2px; font-size: 12px; }
+.news-body ul li::before { content: ">>"; position: absolute; left: 0; color: #c05000; font-size: 9px; top: 2px; }
+.balance-cta { display: block; background: linear-gradient(to bottom, #ff5500, #cc2200); color: #fff !important; text-align: center; padding: 9px; font-size: 13px; font-weight: bold; text-transform: uppercase; text-decoration: none !important; border: 2px solid #881100; margin-top: 8px; font-family: Impact, 'Arial Black', sans-serif; text-shadow: 1px 1px 0 rgba(0,0,0,0.5); }
+.balance-cta:hover { background: linear-gradient(to bottom, #ff7700, #cc3300); }
+.clan-row { display: flex; align-items: center; gap: 5px; margin-bottom: 2px; }
+.clan-num { width: 21px; color: #c05000; font-weight: bold; font-size: 12px; text-align: right; flex-shrink: 0; }
+.clan-name-cell { width: 116px; min-width: 116px; flex-shrink: 0; font-size: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.clan-bar-wrap { flex: 1; background: #e8e8e8; height: 12px; overflow: hidden; border: 1px solid #ccc; }
+.clan-bar { height: 100%; background: linear-gradient(to right, #2e8a57, #3cb371); display: flex; align-items: center; padding-left: 2px; font-size: 9px; color: #fff; font-weight: bold; white-space: nowrap; }
+.news-divider { border: none; border-top: 1px solid #e8e8e8; margin: 8px 0; }
+
+/* INNER PAGES */
+.breadcrumb { font-size: 12px; color: #777; margin-bottom: 7px; }
+.breadcrumb a { color: #555; }
+.breadcrumb span { color: #cc5500; font-weight: bold; }
+.page-heading { font-size: 15px; font-weight: bold; color: #222; margin-bottom: 3px; font-family: Tahoma, sans-serif; }
+.section-heading { font-size: 13px; font-weight: bold; color: #cc5500; border-bottom: 1px dotted #ddd; padding-bottom: 3px; margin: 9px 0 6px; display: flex; align-items: center; gap: 5px; }
+.section-heading::before { content: "**"; font-size: 9px; color: #c05000; }
+.feature-tile { display: flex; border-bottom: 1px dotted #ddd; padding: 8px 0; align-items: flex-start; gap: 10px; }
+.feature-tile:last-child { border-bottom: none; }
+.tile-icon { width: 91px; min-width: 91px; height: 67px; background: #ddd; overflow: hidden; border: 1px solid #ccc; flex-shrink: 0; }
+.tile-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tile-content { flex: 1; }
+.tile-title { font-size: 13px; font-weight: bold; color: #333; margin-bottom: 3px; }
+.tile-desc { font-size: 12px; color: #555; line-height: 1.5; margin-bottom: 3px; }
+.tile-link { font-size: 12px; color: #c05000; display: block; text-align: right; }
+.profile-wrap { display: flex; gap: 10px; margin-bottom: 7px; }
+.profile-avatar-box { width: 84px; min-width: 84px; flex-shrink: 0; }
+.profile-avatar-box img { width: 81px; height: 81px; border: 1px solid #ccc; object-fit: cover; display: block; }
+.profile-info-table { width: 100%; border-collapse: collapse; }
+.profile-info-table td { padding: 2px 6px; font-size: 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+.profile-info-table td:first-child { width: 151px; color: #666; }
+.profile-section-title { font-size: 13px; font-weight: bold; color: #cc5500; display: flex; align-items: center; gap: 5px; margin: 10px 0 5px; border-bottom: 1px dotted #ddd; padding-bottom: 2px; }
+.rank-level-bar { display: flex; align-items: center; gap: 6px; }
+.rank-bar-outer { background: #e8e8e8; height: 12px; width: 87px; border: 1px solid #ccc; overflow: hidden; }
+.rank-bar-fill { height: 100%; background: linear-gradient(to right, #2e8a57, #3cb371); }
+.online-status { color: #009900; font-weight: bold; }
+.av-img { width: 70px; height: 70px; border: 2px solid #ccc; object-fit: cover; display: block; cursor: pointer; }
+.av-img:hover, .av-img.selected-av { border-color: #cc6600; }
+.avatar-grid { display: flex; flex-wrap: wrap; gap: 6px; padding: 9px; background: #f9f9f9; border: 1px solid #eee; }
+.av-option { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; }
+.avatar-upload-row { display: flex; align-items: center; gap: 6px; margin: 6px 0; }
+.avatar-url-input { flex: 1; border: 1px solid #aaa; padding: 3px 5px; font-size: 12px; font-family: Tahoma, sans-serif; }
+.btn-change { background: #e0e0e0; border: 1px solid #aaa; padding: 3px 10px; font-size: 12px; cursor: pointer; font-family: Tahoma, sans-serif; }
+.btn-change:hover { background: #ccc; }
+.clan-info-top { display: flex; align-items: center; gap: 12px; padding: 8px 0 10px; border-bottom: 1px solid #eee; }
+.clan-logo-box { width: 77px; height: 77px; background: #ddd; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #aaa; flex-shrink: 0; }
+.clan-panel-grid { display: grid; grid-template-columns: 1fr 1fr; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; }
+.clan-cell { border-right: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; padding: 12px 10px; text-align: center; }
+.clan-cell p { font-size: 12px; color: #555; line-height: 1.5; margin-bottom: 8px; }
+.clan-btn { display: inline-block; background: #eee; border: 1px solid #aaa; padding: 3px 13px; font-size: 12px; cursor: pointer; text-decoration: none; color: #111; }
+.clan-btn:hover { background: #ddd; }
+.mission-cat { display: flex; border-bottom: 1px dotted #ddd; padding: 8px 0; gap: 10px; }
+.mission-cat:last-child { border-bottom: none; }
+.mission-cat-img { width: 87px; min-width: 87px; height: 65px; background: #ddd; border: 1px solid #ccc; overflow: hidden; flex-shrink: 0; }
+.mission-cat-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mission-cat-text { flex: 1; }
+.mission-cat-name { font-size: 13px; font-weight: bold; color: #333; margin-bottom: 2px; }
+.mission-cat-desc { font-size: 12px; color: #555; line-height: 1.5; margin-bottom: 2px; }
+.mission-cat-link { font-size: 12px; color: #c05000; display: block; text-align: right; }
+.bal-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 12px; }
+.bal-table th { background: #f0f0f0; border: 1px solid #ddd; padding: 3px 7px; text-align: left; }
+.bal-table td { border: 1px solid #eee; padding: 3px 7px; vertical-align: top; }
+.tag { display: inline-block; font-size: 10px; font-weight: bold; padding: 1px 5px; border-radius: 2px; margin-right: 5px; color: #fff; }
+.tag.fix { background: #0077aa; } .tag.nerf { background: #cc2200; }
+.tag.buff { background: #228800; } .tag.change { background: #996600; }
+.reg-form { max-width: 394px; }
+.form-row { margin-bottom: 9px; }
+.form-row label { display: block; font-size: 12px; font-weight: bold; color: #444; margin-bottom: 2px; }
+.form-row input[type=text], .form-row input[type=email], .form-row input[type=password] { width: 100%; border: 1px solid #aaa; padding: 3px 6px; font-size: 13px; font-family: Tahoma, sans-serif; }
+.form-hint { font-size: 10px; color: #888; margin-top: 2px; }
+.reg-btn { background: linear-gradient(to bottom, #ff6600, #cc3300); border: 2px solid #882200; color: #fff; padding: 6px 23px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: Tahoma, sans-serif; text-transform: uppercase; margin-top: 5px; }
+.mt4 { margin-top: 5px; } .mt8 { margin-top: 9px; }
+.section-divider { border: none; border-top: 2px solid #eee; margin: 10px 0 8px; }
+
+/* RESPONSIVE */
+@media (max-width: 1150px) {
+  body { min-width: 320px; }
+  #page-wrap, #main-layout, #header, #footer { width: 100%; max-width: 1114px; }
+  #header { height: auto; flex-wrap: wrap; }
+  #header-nav { order: 2; width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; padding: 5px 7px; gap: 4px; }
+  #header-nav a.nav-btn { width: calc(33.33% - 4px); }
+  #header-nav a.discord-btn { width: calc(33.33% - 4px); }
+  #header-char { order: 0; width: 140px; min-width: 140px; height: 150px; }
+  #header-char img { height: 162px; }
+  #header-right { order: 1; flex: 1; height: 150px; }
+  #header-logo { height: 51px; min-height: 51px; }
+  #main-layout { flex-wrap: wrap; }
+  #sidebar-spacer, #col-gap-left, #col-gap-right { display: none; }
+  #sidebar-right { order: 0; width: 100%; min-width: 0; }
+  #content-main { order: 1; width: 100%; min-width: unset; display: flex; flex-wrap: wrap; gap: 2px; padding: 2px; border-top: 1px solid #000; }
+  #content-main .c-box { flex: 1; min-width: 185px; }
+  #sidebar-left { order: 2; width: 100%; min-width: unset; display: flex; flex-wrap: wrap; }
+  #sidebar-left .s-section { width: 50%; padding: 7px; }
+}
+@media (max-width: 700px) {
+  #header-char { display: none; }
+  #header-nav a.nav-btn { width: calc(50% - 3px); }
+  #header-nav a.discord-btn { width: calc(50% - 3px); }
+  #sidebar-left .s-section { width: 100%; }
+  .feature-tile, .mission-cat { flex-direction: column; }
+  .tile-icon, .mission-cat-img { width: 100%; min-width: unset; height: 93px; }
+  .clan-panel-grid { grid-template-columns: 1fr; }
+}
